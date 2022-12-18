@@ -1,0 +1,31 @@
+.TasksContainer {
+    border-top: 1px solid rgb(199, 196, 196);
+    border-bottom: 1px solid rgb(199, 196, 196);
+    margin: 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.TextContainer {
+    width: 25vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.edit {
+    display: none;
+}
+
+.TasksContainer:hover>.edit {
+    display: block;
+}
+
+.textRed {
+    background-color: red;
+}
+
+.textBlue {
+    background-color: white;
+}

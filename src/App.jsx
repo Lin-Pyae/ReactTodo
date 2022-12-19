@@ -62,31 +62,33 @@ const App = () => {
 
   const handleEdit = (id) => {
     const old = tasks.find(task => task._id === id)
-    const topic = prompt("Enter new topic")
-    const des = prompt("Enter new description")
-    if (topic !== "" && des !== "") {
-      setTask(tasks.map(task => task.id === id ? { topic: topic, description: des, id: task.id, time: task.time } : task))
-    }
+    const t = prompt("Enter new topic",old.topic)
+    const d = prompt("Enter new description",old.description)
+    // if (topic !== "" && des !== "") {
+    //   setTask(tasks.map(task => task.id === id ? { topic: topic, description: des, id: task.id, time: task.time } : task))
+    // }
 
-    if (topic === null && des === null) {
-      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: old.description, id: task.id, time: task.time } : task))
-    }
-    else if (topic === null) {
-      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: des, id: task.id, time: task.time } : task))
+    // if (topic === null && des === null) {
+    //   setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: old.description, id: task.id, time: task.time } : task))
+    // }
+    // else if (topic === null) {
+    //   setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: des, id: task.id, time: task.time } : task))
 
-    }
-    else if (des === null) {
-      setTask(tasks.map(task => task.id === id ? { topic: topic, description: old.description, id: task.id, time: task.time } : task))
+    // }
+    // else if (des === null) {
+    //   setTask(tasks.map(task => task.id === id ? { topic: topic, description: old.description, id: task.id, time: task.time } : task))
 
-    }
+    // }
+
+    console.log(old.userid)
 
     fetch(`http://127.0.0.1:8000/${id}`,{
         method: 'PUT',
         body: JSON.stringify({
           username: old.username,
-          userid: old.id,
-          topic: topic,
-          description: des,
+          userid: old.userid,
+          topic: t,
+          description: d,
           dateCreated:old.dateCreated
         }),
         headers:{

@@ -6,6 +6,8 @@ import AddTask from './components/AddTask'
 const App = () => {
   const [tasks, setTask] = useState([])
 
+
+
   const handleDelete = (id) => {
     setTask(tasks.filter(task => task.id !== id))
   }
@@ -25,18 +27,18 @@ const App = () => {
     const topic = prompt("Enter new topic", old.topic)
     const des = prompt("Enter new description", old.description)
     if (topic !== "" && des !== "") {
-      setTask(tasks.map(task => task.id === id ? { topic: topic, description: des, isDone: false, id: task.id } : task))
+      setTask(tasks.map(task => task.id === id ? { topic: topic, description: des, isDone: false, id: task.id, time: task.time } : task))
     }
 
     if (topic === null && des === null) {
-      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: old.description, isDone: false, id: task.id } : task))
+      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: old.description, isDone: false, id: task.id, time: task.time } : task))
     }
     else if (topic === null) {
-      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: des, isDone: false, id: task.id } : task))
+      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: des, isDone: false, id: task.id, time: task.time } : task))
 
     }
     else if (des === null) {
-      setTask(tasks.map(task => task.id === id ? { topic: topic, description: old.description, isDone: false, id: task.id } : task))
+      setTask(tasks.map(task => task.id === id ? { topic: topic, description: old.description, isDone: false, id: task.id, time: task.time } : task))
 
     }
 

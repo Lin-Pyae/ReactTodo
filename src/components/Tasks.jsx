@@ -1,6 +1,14 @@
 import React from 'react'
 import './Tasks.css'
 const Tasks = ({ topic, datetime, description, isDone, id, Delete, Edit }) => {
+    let d = new Date(datetime)
+    const currentD = () => {
+        const date = new Date();
+        console.log("Current time", date.getTime(), " target time", d.getTime())
+        return date.getTime()
+    }
+    setInterval(currentD, 1000)
+    console.log(d.getTime())
 
     const handleDelete = () => {
         Delete(id)
@@ -10,8 +18,6 @@ const Tasks = ({ topic, datetime, description, isDone, id, Delete, Edit }) => {
         Edit(id)
     }
 
-    let today = new Date();
-    let currentDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
     return (
         <div className='TasksContainer'>
@@ -22,7 +28,7 @@ const Tasks = ({ topic, datetime, description, isDone, id, Delete, Edit }) => {
                 <div>
                     <p>{topic}</p>
                     <p>{description}</p>
-                    <p className={datetime < currentDate ? 'textRed' : 'textBlue'}>{datetime}</p>
+                    <p className={currentD() > d.getTime() ? 'textRed' : 'textBlue'}>{datetime}</p>
                 </div>
 
             </div>

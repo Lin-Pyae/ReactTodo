@@ -1,21 +1,20 @@
 import React from 'react'
 import './Tasks.css'
-const Tasks = ({ topic, datetime, description, isDone, id, Delete, Edit }) => {
+const Tasks = ({ topic, datetime, description, id, Delete, Edit, taskId }) => {
     let d = new Date(datetime)
     const currentD = () => {
         const date = new Date();
         console.log("Current time", date.getTime(), " target time", d.getTime())
         return date.getTime()
     }
-    setInterval(currentD, 1000)
-    console.log(d.getTime())
+   
 
     const handleDelete = () => {
-        Delete(id)
+        Delete(taskId)
     }
 
     const handleEdit = () => {
-        Edit(id)
+        Edit(taskId)
     }
 
 

@@ -6,48 +6,100 @@ import AddTask from './components/AddTask'
 const App = () => {
   const [tasks, setTask] = useState([])
 
+  const retrieveAllTasks = () => {
+    fetch(`http://127.0.0.1:8000`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then((data) => setTask(data))
+  }
 
+  retrieveAllTasks()
 
   const handleDelete = (id) => {
     setTask(tasks.filter(task => task.id !== id))
+    fetch(`http://127.0.0.1:8000/${id}`,{
+    method: 'DELETE',
+    headers:{
+        'Content-Type':'application/json'
+    }
+})
+.then(response=>response.json())
+.then((data)=>{
+    console.log("successfully deleted")
+})
   }
 
   const handleAdd = (t, d, dt) => {
     const data = {}
+    data.username="Lin Pyae"
+    data.id = Math.random(Date.now()) * 10000000
     data.topic = t
     data.description = d
-    data.isDone = false
-    data.time = dt
-    data.id = Math.random(Date.now()) * 10000000
+    data.dateCreated = dt
+    console.log(typeof data.time)
     setTask([...tasks, data])
+    fetch('http://127.0.0.1:8000',{
+      method:'POST',
+      body: JSON.stringify({
+        username: data.username,
+        userid: data.id.toString(),
+        topic: data.topic,
+        description: data.description,
+        dateCreated:data.dateCreated
+      }),
+      headers:{
+        'Content-Type' : 'application/json'
+      }
+    })
+    .then(response=>response.json())
+    .then(data => console.log("successfully added"))
+    
   }
 
   const handleEdit = (id) => {
-    const old = tasks.find(task => task.id === id)
-    const topic = prompt("Enter new topic", old.topic)
-    const des = prompt("Enter new description", old.description)
+    const old = tasks.find(task => task._id === id)
+    const topic = prompt("Enter new topic")
+    const des = prompt("Enter new description")
     if (topic !== "" && des !== "") {
-      setTask(tasks.map(task => task.id === id ? { topic: topic, description: des, isDone: false, id: task.id, time: task.time } : task))
+      setTask(tasks.map(task => task.id === id ? { topic: topic, description: des, id: task.id, time: task.time } : task))
     }
 
     if (topic === null && des === null) {
-      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: old.description, isDone: false, id: task.id, time: task.time } : task))
+      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: old.description, id: task.id, time: task.time } : task))
     }
     else if (topic === null) {
-      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: des, isDone: false, id: task.id, time: task.time } : task))
+      setTask(tasks.map(task => task.id === id ? { topic: old.topic, description: des, id: task.id, time: task.time } : task))
 
     }
     else if (des === null) {
-      setTask(tasks.map(task => task.id === id ? { topic: topic, description: old.description, isDone: false, id: task.id, time: task.time } : task))
+      setTask(tasks.map(task => task.id === id ? { topic: topic, description: old.description, id: task.id, time: task.time } : task))
 
     }
 
-
+    fetch(`http://127.0.0.1:8000/${id}`,{
+        method: 'PUT',
+        body: JSON.stringify({
+          username: old.username,
+          userid: old.id,
+          topic: topic,
+          description: des,
+          dateCreated:old.dateCreated
+        }),
+        headers:{
+            'Content-Type':'application/json'
+        }
+    })
+    .then(response=>response.json())
+    .then((data)=>console.log("successfully posted"))
   }
 
   return (
     <div>
-      {tasks.map((task, index) => <Tasks key={index} datetime={task.time} topic={task.topic} description={task.description} isDone={task.isDone} id={task.id} Delete={handleDelete} Edit={handleEdit} />)}
+      {tasks.map((task, index) => <Tasks taskId={task._id} key={task._id} datetime={task.dateCreated} topic={task.topic} description={task.description}  id={task.id} Delete={handleDelete} Edit={handleEdit} />)}
       <AddTask Add={handleAdd} />
     </div>
   )

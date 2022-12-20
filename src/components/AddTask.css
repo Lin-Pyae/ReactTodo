@@ -1,4 +1,4 @@
-form {
+.addTaskForm {
     border: 1px solid rgb(172, 168, 168);
     margin: 10px 100px;
     border-radius: 20px;
@@ -6,13 +6,13 @@ form {
     display: none;
 }
 
-form>input {
+.addTaskForm>input {
     display: block;
     margin: 10px 20px;
     border: 0;
 }
 
-form>input:focus {
+.addTaskForm>input:focus {
     outline: none;
 }
 

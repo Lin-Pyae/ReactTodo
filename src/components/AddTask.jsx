@@ -27,7 +27,7 @@ const AddTask = ({ Add }) => {
     return (
         <div>
             <button onClick={toggleAddTask}>Add task</button>
-            <form>
+            <form className='addTaskForm'>
 
                 <input type="text" ref={topic} placeholder='Task name' />
                 <input type="text" ref={description} placeholder='Description' />

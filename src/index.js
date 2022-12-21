@@ -6,9 +6,13 @@ import { BrowserRouter } from 'react-router-dom';
 import keycloak from './Keycloak';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
 
+// const tokenLogger = ({token}) =>{
+//     console.log(keycloak);
+// }
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-<ReactKeycloakProvider authClient={keycloak}>
+<ReactKeycloakProvider authClient={keycloak} >
     <BrowserRouter>
     <App />
     </BrowserRouter>

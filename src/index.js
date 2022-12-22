@@ -12,13 +12,7 @@ import { ReactKeycloakProvider } from '@react-keycloak/web';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-<ReactKeycloakProvider authClient={keycloak} >
-    <BrowserRouter>
     <App />
-    </BrowserRouter>
-</ReactKeycloakProvider>
-
-
 );
 
 

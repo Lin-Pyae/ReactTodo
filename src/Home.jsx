@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
+import { useKeycloak } from '@react-keycloak/web'
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+    const {keycloak, initialized} = useKeycloak();
     const [tasks, setTask] = useState([])
 
     const retrieveAllTasks = () => {
@@ -102,6 +105,15 @@ const Home = () => {
         <div>
         {tasks.map((task, index) => <Tasks taskId={task._id} key={task._id} datetime={task.dateCreated} topic={task.topic} description={task.description}  id={task.id} Delete={handleDelete} Edit={handleEdit} />)}
         <AddTask Add={handleAdd} />
+        {!!keycloak.authenticated && (
+          <button
+            type="button"
+            className="text-blue-800"
+            onClick={() => keycloak.logout()}
+          >
+            Logout ({keycloak.tokenParsed.preferred_username})
+          </button>
+        )}
       </div>
       
      

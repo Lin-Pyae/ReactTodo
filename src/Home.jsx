@@ -36,9 +36,10 @@ const Home = () => {
     }
   
     const handleAdd = (t, d, dt) => {
+      console.log(dt)
       const data = {}
-      data.username="Lin Pyae"
-      data.id = Math.random(Date.now()) * 10000000
+      data.username=keycloak.tokenParsed.preferred_username
+      data.id = keycloak.tokenParsed.sub
       data.topic = t
       data.description = d
       data.dateCreated = dt
@@ -100,20 +101,29 @@ const Home = () => {
       .then(response=>response.json())
       .then((data)=>console.log("successfully posted"))
     }
-  
+ 
+    console.log(keycloak.tokenParsed.realm_access.roles[0])
+  const navigate = useNavigate();
+
+    const Login = () =>{
+          navigate("/")
+          keycloak.logout()
+    }  
     return (
         <div>
+          {/* {console.log(keycloak.token)} */}
         {tasks.map((task, index) => <Tasks taskId={task._id} key={task._id} datetime={task.dateCreated} topic={task.topic} description={task.description}  id={task.id} Delete={handleDelete} Edit={handleEdit} />)}
         <AddTask Add={handleAdd} />
         {!!keycloak.authenticated && (
           <button
             type="button"
             className="text-blue-800"
-            onClick={() => keycloak.logout()}
+            onClick={() => Login()}
           >
             Logout ({keycloak.tokenParsed.preferred_username})
           </button>
         )}
+        
       </div>
       
      

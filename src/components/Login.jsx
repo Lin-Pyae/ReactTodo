@@ -1,11 +1,10 @@
-import {useState} from 'react'
 import './Login.css'
 import { useKeycloak } from '@react-keycloak/web'
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const {keycloak, initialized} = useKeycloak();
+  const {keycloak} = useKeycloak();
 
   if (keycloak.authenticated) navigate("/home");
   return (

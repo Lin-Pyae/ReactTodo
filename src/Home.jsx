@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 import { useKeycloak } from '@react-keycloak/web'
 import { useNavigate } from "react-router-dom";
 
-const Home = () => {
-    const {keycloak, initialized} = useKeycloak();
+const Home = ({userRole}) => {
+    const {keycloak} = useKeycloak();
     const [tasks, setTask] = useState([])
 
     const retrieveAllTasks = () => {
@@ -19,8 +19,11 @@ const Home = () => {
         .then((data) => setTask(data))
     }
   
-    retrieveAllTasks()
+    // useEffect(() => {retrieveAllTasks()},[])
+    useEffect(() => { retrieveAllTasks()
+      setInterval(()=>retrieveAllTasks(),10000)},[])
   
+    // console.log("This is role ", userRole(keycloak.tokenParsed.realm_access.roles[0]))
     const handleDelete = (id) => {
       setTask(tasks.filter(task => task.id !== id))
       fetch(`http://127.0.0.1:8000/${id}`,{
@@ -102,7 +105,7 @@ const Home = () => {
       .then((data)=>console.log("successfully posted"))
     }
  
-    console.log(keycloak.tokenParsed.realm_access.roles[0])
+    // console.log(keycloak.tokenParsed.realm_access.roles[0])
   const navigate = useNavigate();
 
     const Login = () =>{

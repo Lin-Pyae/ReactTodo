@@ -4,7 +4,7 @@ const Tasks = ({ topic, datetime, description, id, Delete, Edit, taskId }) => {
     let d = new Date(datetime)
     const currentD = () => {
         const date = new Date();
-        // console.log("Current time", date.getTime(), " target time", d.getTime())
+        console.log("Current time", date.getTime(), " target time", d.getTime())
         return date.getTime()
     }
    

@@ -1,8 +1,8 @@
 import React from 'react'
 
 
-const Admin = () => {
-  
+const Admin = ({userRole}) => {
+  console.log(userRole)
   
   return (
     <div>

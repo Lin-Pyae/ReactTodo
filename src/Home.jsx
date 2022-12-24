@@ -4,10 +4,11 @@ import AddTask from './components/AddTask'
 import { useKeycloak } from '@react-keycloak/web'
 import { useNavigate } from "react-router-dom";
 
-const Home = ({userRole}) => {
+const Home = () => {
     const {keycloak} = useKeycloak();
     const [tasks, setTask] = useState([])
-
+console.log(keycloak.hasRealmRole("user"))
+    // userRole(keycloak.tokenParsed.realm_access.roles[0])
     const retrieveAllTasks = () => {
       fetch(`http://127.0.0.1:8000`, {
         method: 'GET',
@@ -23,7 +24,7 @@ const Home = ({userRole}) => {
     useEffect(() => { retrieveAllTasks()
       setInterval(()=>retrieveAllTasks(),10000)},[])
   
-    // console.log("This is role ", userRole(keycloak.tokenParsed.realm_access.roles[0]))
+    
     const handleDelete = (id) => {
       setTask(tasks.filter(task => task.id !== id))
       fetch(`http://127.0.0.1:8000/${id}`,{
@@ -114,7 +115,6 @@ const Home = ({userRole}) => {
     }  
     return (
         <div>
-          {/* {console.log(keycloak.token)} */}
         {tasks.map((task, index) => <Tasks taskId={task._id} key={task._id} datetime={task.dateCreated} topic={task.topic} description={task.description}  id={task.id} Delete={handleDelete} Edit={handleEdit} />)}
         <AddTask Add={handleAdd} />
         {!!keycloak.authenticated && (

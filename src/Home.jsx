@@ -7,22 +7,24 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
     const {keycloak} = useKeycloak();
     const [tasks, setTask] = useState([])
+
 console.log(keycloak.hasRealmRole("user"))
     // userRole(keycloak.tokenParsed.realm_access.roles[0])
     const retrieveAllTasks = () => {
-      fetch(`http://127.0.0.1:8000`, {
+      fetch(`http://127.0.0.1:8000/forusers/${keycloak.tokenParsed.sub}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'access-token': localStorage.getItem('keycloakToken').toString()
         }
       })
         .then(response => response.json())
         .then((data) => setTask(data))
     }
   
-    // useEffect(() => {retrieveAllTasks()},[])
-    useEffect(() => { retrieveAllTasks()
-      setInterval(()=>retrieveAllTasks(),10000)},[])
+    useEffect(() => {localStorage.setItem('keycloakToken', JSON.stringify(keycloak.token))},[keycloak.token])
+    useEffect(() => {retrieveAllTasks()})
+    useEffect(() => { setInterval(()=>retrieveAllTasks(),10000)},[])
   
     
     const handleDelete = (id) => {
@@ -30,7 +32,9 @@ console.log(keycloak.hasRealmRole("user"))
       fetch(`http://127.0.0.1:8000/${id}`,{
       method: 'DELETE',
       headers:{
-          'Content-Type':'application/json'
+          'Content-Type':'application/json',
+          'access-token': keycloak.token
+
       }
   })
   .then(response=>response.json())
@@ -59,7 +63,8 @@ console.log(keycloak.hasRealmRole("user"))
           dateCreated:data.dateCreated
         }),
         headers:{
-          'Content-Type' : 'application/json'
+          'Content-Type' : 'application/json',
+          'access-token': localStorage.getItem('keycloakToken').toString()
         }
       })
       .then(response=>response.json())
@@ -99,7 +104,9 @@ console.log(keycloak.hasRealmRole("user"))
             dateCreated:old.dateCreated
           }),
           headers:{
-              'Content-Type':'application/json'
+              'Content-Type':'application/json',
+              'access-token': keycloak.token
+
           }
       })
       .then(response=>response.json())
